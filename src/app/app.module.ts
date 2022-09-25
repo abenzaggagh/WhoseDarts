@@ -15,6 +15,7 @@ import {CardModule} from "primeng/card";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {FormsModule} from "@angular/forms";
 import { GameComponent } from './modules/game/game.component';
+import {InputTextModule} from "primeng/inputtext";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { GameComponent } from './modules/game/game.component';
     DividerModule,
     CardModule,
     SelectButtonModule,
-    FormsModule
+    FormsModule,
+    InputTextModule
   ],
   providers: [],
   bootstrap: [AppComponent]

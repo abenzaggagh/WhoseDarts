@@ -1,5 +1,74 @@
 <div class="container-fluid">
   <div class="row">
-
+    <div class="tour-heading" *ngIf="this.whoseDartsGame">
+      {{ currentTour }} / {{ this.whoseDartsGame.nbTours }}
+    </div>
   </div>
+
+  <div class="row">
+    <div class="col-3">
+      <ng-container>
+
+      </ng-container>
+    </div>
+    <div class="col-6">
+
+    </div>
+    <div class="col-3">
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="d-flex flex-wrap justify-content-center">
+      <input id="darts-1" class="darts-score" type="text" pInputText [disabled]="true" [(ngModel)]="firstDart" />
+      <input id="darts-2" class="darts-score" type="text" pInputText [disabled]="true" [(ngModel)]="secondDart" />
+      <input id="darts-3" class="darts-score" type="text" pInputText [disabled]="true" [(ngModel)]="thirdDart" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="d-flex flex-wrap justify-content-center">
+      <button pButton pRipple type="button" label="1" class="p-button-raised p-button-text darts-score" (click)="darts(1)"></button>
+      <button pButton pRipple type="button" label="2" class="p-button-raised p-button-text darts-score" (click)="darts(2)"></button>
+      <button pButton pRipple type="button" label="3" class="p-button-raised p-button-text darts-score" (click)="darts(3)"></button>
+      <button pButton pRipple type="button" label="4" class="p-button-raised p-button-text darts-score" (click)="darts(4)"></button>
+      <button pButton pRipple type="button" label="5" class="p-button-raised p-button-text darts-score" (click)="darts(5)"></button>
+      <button pButton pRipple type="button" label="6" class="p-button-raised p-button-text darts-score" (click)="darts(6)"></button>
+      <button pButton pRipple type="button" label="7" class="p-button-raised p-button-text darts-score" (click)="darts(7)"></button>
+    </div>
+    <div class="d-flex flex-wrap justify-content-center mt-3">
+      <button pButton pRipple type="button" label="8" class="p-button-raised p-button-text darts-score" (click)="darts(8)"></button>
+      <button pButton pRipple type="button" label="9" class="p-button-raised p-button-text darts-score" (click)="darts(9)"></button>
+      <button pButton pRipple type="button" label="10" class="p-button-raised p-button-text darts-score" (click)="darts(10)"></button>
+      <button pButton pRipple type="button" label="11" class="p-button-raised p-button-text darts-score" (click)="darts(11)"></button>
+      <button pButton pRipple type="button" label="12" class="p-button-raised p-button-text darts-score" (click)="darts(12)"></button>
+      <button pButton pRipple type="button" label="13" class="p-button-raised p-button-text darts-score" (click)="darts(13)"></button>
+      <button pButton pRipple type="button" label="14" class="p-button-raised p-button-text darts-score" (click)="darts(14)"></button>
+    </div>
+    <div class="d-flex flex-wrap justify-content-center mt-3">
+      <button pButton pRipple type="button" label="15" class="p-button-raised p-button-text darts-score" (click)="darts(15)"></button>
+      <button pButton pRipple type="button" label="16" class="p-button-raised p-button-text darts-score" (click)="darts(16)"></button>
+      <button pButton pRipple type="button" label="17" class="p-button-raised p-button-text darts-score" (click)="darts(17)"></button>
+      <button pButton pRipple type="button" label="18" class="p-button-raised p-button-text darts-score" (click)="darts(18)"></button>
+      <button pButton pRipple type="button" label="19" class="p-button-raised p-button-text darts-score" (click)="darts(19)"></button>
+      <button pButton pRipple type="button" label="20" class="p-button-raised p-button-text darts-score" (click)="darts(20)"></button>
+      <button pButton pRipple type="button" label="25" class="p-button-raised p-button-text darts-score" (click)="darts(25)"></button>
+    </div>
+    <div class="d-flex flex-wrap justify-content-center mt-3">
+      <button pButton pRipple type="button" icon="pi pi-chevron-left" class="p-button-raised p-button-text darts-score" (click)="back()"></button>
+      <button pButton pRipple type="button" label="DOUBLE" class="p-button-raised p-button-text darts-score" [ngClass]="{'active' : isDouble}" (click)="double()"></button>
+      <button pButton pRipple type="button" label="TRIPLE" class="p-button-raised p-button-text darts-score" [ngClass]="{'active' : isTriple}" (click)="triple()"></button>
+      <button pButton pRipple type="button" label="OUT" class="p-button-raised p-button-danger p-button-text darts-score" (click)="darts(0)"></button>
+    </div>
+  </div>
+
+  <div class="row">
+    <button type="button"
+            label="Suivant"
+            class="p-button-raised home-button"
+            *ngIf="isAllDartsSet()"
+            pButton pRipple (click)="next()"></button>
+  </div>
+
 </div>

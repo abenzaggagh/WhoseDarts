@@ -38,6 +38,14 @@ export const NB_TOURS = [
     label: "15"
   },
   {
+    code: "20",
+    label: "20"
+  },
+  {
+    code: "25",
+    label: "25"
+  },
+  {
     code: "INFINI",
     label: "Infini"
   }

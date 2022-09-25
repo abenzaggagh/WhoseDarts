@@ -1,0 +1,23 @@
+.tour-heading {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.darts-score {
+  margin: 0 10px;
+}
+
+.active {
+  color: #FFFFFF;
+  background-color: #3B82F6;
+}
+
+:host >>> .p-button.p-button-text:enabled:hover {
+  color: #FFFFFF;
+  background-color: #3B82F6;
+}
+
+.active:hover {
+  color: #FFFFFF;
+  background-color: #3B82F6;
+}

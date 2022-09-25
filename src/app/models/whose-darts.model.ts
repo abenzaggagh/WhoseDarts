@@ -37,3 +37,8 @@ export interface WhoseDarts {
   checkOut?: String;
 }
 
+export interface Round {
+  firstDart: string;
+  secondDart: string;
+  thirdDart: string;
+}
