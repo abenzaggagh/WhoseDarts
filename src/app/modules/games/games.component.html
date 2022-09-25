@@ -2,9 +2,9 @@
   <ng-container *ngFor="let game of games">
     <div class="row">
       <button type="button"
-              label="{{game}}"
+              label="{{ game.name }}"
               class="p-button-raised home-button"
-              pButton pRipple></button>
+              pButton pRipple routerLink="../start/{{game.code}}"></button>
     </div>
   </ng-container>
 </div>

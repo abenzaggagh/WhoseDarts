@@ -1,7 +1,18 @@
 export interface Player {
+  index: number;
   firstName: string;
   lastName: String;
   username: String;
+}
+
+export interface Codable {
+  code: string,
+  name: string
+}
+
+export interface Game {
+  name: string,
+  code: Games
 }
 
 export enum Games {
@@ -9,15 +20,20 @@ export enum Games {
   DARTS_501 = "501",
   DARTS_701  = "701",
   DARTS_1001 = "1001",
-  CRICKET = "Cricket",
-  PARCHESS = "Parchess",
-  BOB_S_27 = "Bob’s 27",
-  HIGH_SCORE = "High Score",
-  BARMOUDA = "Barmouda",
-  FOOTBALL = "Football"
+  CRICKET = "CRICKET",
+  PARCHESS = "PARCHESS",
+  HIGH_SCORE = "HIGH_SCORE",
+  BOB_S_27 = "BOB_S_27",
+  BARMOUDA = "BARMOUDA",
+  FOOTBALL = "FOOTBALL"
 }
 
 export interface WhoseDarts {
-
+  game: string;
+  players: Player[]
+  nbTours: string;
+  modeDeJeu?: String;
+  checkIn?: String;
+  checkOut?: String;
 }
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {HOME} from "../../app.const";
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-
+  home = HOME;
 
   constructor() { }
 

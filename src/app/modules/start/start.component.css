@@ -1,0 +1,14 @@
+.square {
+  width: 50vw;
+  height: 50vw;
+}
+
+
+.horizontal-group > .row {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.horizontal-group > .row > .col-3 {
+  display: inline-block;
+}

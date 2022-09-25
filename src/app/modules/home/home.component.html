@@ -1,8 +1,10 @@
 <div class="container-fluid">
-  <div class="row">
-    <button type="button"
-            label="Jouer"
-            class="p-button-raised home-button"
-            pButton pRipple routerLink="/games"></button>
-  </div>
+  <ng-container *ngFor="let item of home">
+    <div class="row">
+      <button type="button"
+              label="{{ item.name }}"
+              class="p-button-raised home-button"
+              pButton pRipple routerLink="{{ item.code }}"></button>
+    </div>
+  </ng-container>
 </div>

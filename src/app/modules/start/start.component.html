@@ -1,0 +1,116 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="text-justify text-center">
+      <h1>{{ gameId }}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <p-divider></p-divider>
+    <br>
+    <br>
+    <br>
+  </div>
+
+  <div class="row">
+    <p-divider align="left">
+      <div class="inline-flex align-items-center">
+        <i class="pi pi-user mr-2"></i>
+        <b>   Participants</b>
+      </div>
+    </p-divider>
+
+    <div class="container-fluid horizontal-group">
+
+      <div class="row m-0 p-2 text-center">
+        <ng-container *ngFor="let player of players">
+          <div class="col-3">
+            <div>
+              <p-card>
+                <b>{{ player.username }}</b>
+              </p-card>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="col-3">
+          <p-card (click)="addPlayer()">
+            <i class="pi pi-user-plus" style="font-size: 1rem; font-weight: bold"></i>
+          </p-card>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <p-divider align="left">
+      <div class="inline-flex align-items-center">
+        <b>   Nombre de tours </b>
+      </div>
+    </p-divider>
+    <p-selectButton [options]="NB_TOURS" [(ngModel)]="nbTours"
+                    optionLabel="label" optionValue="code">
+      <ng-template let-item>
+        {{ item.label }}
+      </ng-template>
+    </p-selectButton>
+  </div>
+
+  <ng-container *ngIf="gameId != 'CRICKET'">
+    <div class="row">
+      <p-divider align="left">
+        <div class="inline-flex align-items-center">
+          <b>   Check-Out </b>
+        </div>
+      </p-divider>
+      <p-selectButton [options]="CHECK_OUT" [(ngModel)]="checkOut"
+                      optionLabel="label" optionValue="code">
+        <ng-template let-item>
+          {{ item.label }}
+        </ng-template>
+      </p-selectButton>
+    </div>
+
+    <div class="row">
+      <p-divider align="left">
+        <div class="inline-flex align-items-center">
+          <b>   Check-In </b>
+        </div>
+      </p-divider>
+      <p-selectButton [options]="CHECK_IN" [(ngModel)]="checkIn"
+                      optionLabel="label" optionValue="code">
+        <ng-template let-item>
+          {{ item.label }}
+        </ng-template>
+      </p-selectButton>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="gameId == 'CRICKET'">
+    <div class="row">
+      <p-divider align="left">
+        <div class="inline-flex align-items-center">
+          <b>   Mode du jeu </b>
+        </div>
+      </p-divider>
+      <p-selectButton [options]="CRICKET_MODE" [(ngModel)]="cricketMode"
+                      optionLabel="label" optionValue="code">
+        <ng-template let-item>
+          {{ item.label }}
+        </ng-template>
+      </p-selectButton>
+    </div>
+  </ng-container>
+
+  <br>
+
+  <div class="row">
+    <button type="button"
+            label="Commencer"
+            class="p-button-raised home-button"
+            pButton pRipple (click)="start()"></button>
+  </div>
+
+</div>

@@ -9,19 +9,31 @@ import { AppRoutingModule } from './app-routing.module';
 import { ButtonModule } from "primeng/button";
 import { RippleModule } from "primeng/ripple";
 import { ScoreComponent } from './components/score/score.component';
+import { StartComponent } from './modules/start/start.component';
+import {DividerModule} from "primeng/divider";
+import {CardModule} from "primeng/card";
+import {SelectButtonModule} from "primeng/selectbutton";
+import {FormsModule} from "@angular/forms";
+import { GameComponent } from './modules/game/game.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     GamesComponent,
-    ScoreComponent
+    ScoreComponent,
+    StartComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ButtonModule,
-    RippleModule
+    RippleModule,
+    DividerModule,
+    CardModule,
+    SelectButtonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
