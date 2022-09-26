@@ -12,12 +12,66 @@
   background-color: #3B82F6;
 }
 
-:host >>> .p-button.p-button-text:enabled:hover {
+:host >>> .p-button.p-button-text:enabled-active {
   color: #FFFFFF;
   background-color: #3B82F6;
 }
 
-.active:hover {
+:host >>> .p-card-body {
+  padding: 0;
+}
+
+.active-active {
   color: #FFFFFF;
   background-color: #3B82F6;
+}
+
+.player-username {
+  font-size: 40px;
+  margin: 0;
+  font-weight: bold;
+  padding: 0 15px;
+}
+
+.player-score {
+  padding: 0;
+  font-size: 60px;
+  text-align: center;
+}
+
+:is(.player-1, .player-2, .player-3, .player-4,
+    .player-5, .player-6, .player-7, .player-8) {
+  margin: 0;
+}
+
+.player-1 {
+  color: #0000ff
+}
+
+.player-2 {
+  color: #00ff1e
+}
+
+.player-3 {
+  color: #fad700
+}
+
+.player-4 {
+  color: #FF0000;
+}
+
+.player-5 {
+  color: #ff5900
+}
+
+.player-6 {
+  color: #9A6324
+}
+
+.player-7 {
+  color: #00ffe2
+}
+
+.player-8 {
+  color: #911eb4
 }

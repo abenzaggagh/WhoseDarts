@@ -32,12 +32,14 @@ export class StartComponent implements OnInit {
     index: 1,
     firstName: '',
     lastName: '',
-    username: 'Player 1'
+    username: 'Player 1',
+    score: 0
   }, {
     index: 2,
     firstName: '',
     lastName: '',
-    username: 'Player 2'
+    username: 'Player 2',
+    score: 0
   }];
 
   constructor(private router: Router,
@@ -55,7 +57,8 @@ export class StartComponent implements OnInit {
         index: this.nbPlayers,
         firstName: '',
         lastName: '',
-        username: 'Player ' + this.nbPlayers
+        username: 'Player ' + this.nbPlayers,
+        score: 0
       });
     }
   }

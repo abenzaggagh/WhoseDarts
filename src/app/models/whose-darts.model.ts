@@ -3,6 +3,7 @@ export interface Player {
   firstName: string;
   lastName: String;
   username: String;
+  score: number;
 }
 
 export interface Codable {
