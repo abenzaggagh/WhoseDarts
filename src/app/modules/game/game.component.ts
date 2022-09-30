@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {GameService} from "../../services/GameService";
-import {Round, WhoseDarts} from "../../models/whose-darts.model";
+import {Player, Round, WhoseDarts} from "../../models/whose-darts.model";
 
 @Component({
   selector: 'app-game',
@@ -9,6 +9,31 @@ import {Round, WhoseDarts} from "../../models/whose-darts.model";
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
+
+  // TODO: move to a seperate component
+  // Start of TODO ******************************
+  seconds: number = 0;
+  minutes: number = 0;
+
+  startChrono() {
+    setInterval(() =>  {
+      this.seconds++;
+      if (this.seconds == 60) {
+        this.seconds = 0;
+        this.minutes++;
+      }
+    }, 1000);
+  }
+  // END of TODO ******************************
+
+  // TODO : create a pipe to add the leading zero
+  addLeadingZero(value: number) : string {
+    if (value <= 9) {
+      return "0" + String(value);
+    } else {
+      return String(value);
+    }
+  }
 
   isDouble: boolean = false;
   isTriple: boolean = false;
@@ -21,11 +46,13 @@ export class GameComponent implements OnInit {
 
   currentRoundDartsScore: number = 0;
 
-  currentPlayer: string = '1';
+  currentRound: number = 1;
+  currentPlayerIndexInRound: number = 1;
+
+  scores: Map<Player, Array<Round>> = new Map<Player, Array<Round>>();
 
   rounds: Round[] = [];
   nbTotalDeTour?: number;
-  currentTour: number = 1;
 
   whoseDartsGame?: WhoseDarts;
 
@@ -53,9 +80,16 @@ export class GameComponent implements OnInit {
         case "CRICKET":
           this.whoseDartsGame.players.forEach(player => player.score = 0);
           break;
+        case "PARCHESS":
+          this.whoseDartsGame.players.forEach(player => player.score = 0);
+          break;
       }
+      this.whoseDartsGame.players.forEach(player => {
+        this.scores.set(player, []);
+      });
     }
     this.nbTotalDeTour = parseInt(this.whoseDartsGame.nbTours);
+    this.startChrono();
   }
 
   isAllDartsSet() : boolean {
@@ -83,17 +117,62 @@ export class GameComponent implements OnInit {
     return String(dartValue);
   }
 
-  darts(dartValue: number) {
-    if (this.firstDart == undefined) {
-      this.firstDart = this.toDarts(dartValue);
-    } else if (this.toDartsValue(this.firstDart) >= 0 && this.secondDart == undefined) {
-      this.secondDart = this.toDarts(dartValue);
-    } else if (this.toDartsValue(this.firstDart) >= 0 && (this.secondDart != undefined && this.toDartsValue(this.secondDart) >= 0) && this.thirdDart == undefined) {
-      this.thirdDart = this.toDarts(dartValue);
+  toCricketMarks(dartValue: number) : number {
+    if (this.isTriple) {
+      return 3;
+    } else if (this.isDouble) {
+      return 2;
     }
+    return 1;
+  }
+
+  darts(dartValue: number) {
+
+    if (this.whoseDartsGame?.game != 'CRICKET') {
+      if (this.firstDart == undefined) {
+        this.firstDart = this.toDarts(dartValue);
+        this.calcCurrentRoundDartsScore();
+        this.checkWinner();
+      } else if (this.toDartsValue(this.firstDart) >= 0 && this.secondDart == undefined) {
+        this.secondDart = this.toDarts(dartValue);
+        this.calcCurrentRoundDartsScore();
+        this.checkWinner()
+      } else if (this.toDartsValue(this.firstDart) >= 0 && (this.secondDart != undefined && this.toDartsValue(this.secondDart) >= 0) && this.thirdDart == undefined) {
+        this.thirdDart = this.toDarts(dartValue);
+        this.calcCurrentRoundDartsScore();
+        this.checkWinner();
+      }
+    }
+
+    if (this.whoseDartsGame?.game == 'CRICKET') {
+      if (this.firstDart == undefined) {
+        this.firstDart = this.toDarts(dartValue);
+        if (this.whoseDartsGame.players[this.currentPlayerIndexInRound] && this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks) {
+          if (Number(this.firstDart) > 0) {
+            this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks?.set(String(dartValue), this.toCricketMarks(dartValue));
+          }
+        }
+      } else if (this.toDartsValue(this.firstDart) >= 0 && this.secondDart == undefined) {
+        this.secondDart = this.toDarts(dartValue);
+        console.log(this.secondDart);
+      } else if (this.toDartsValue(this.firstDart) >= 0 && (this.secondDart != undefined && this.toDartsValue(this.secondDart) >= 0) && this.thirdDart == undefined) {
+        this.thirdDart = this.toDarts(dartValue);
+        console.log(this.thirdDart);
+      }
+    }
+
     this.isDouble = false;
     this.isTriple = false;
-    this.calcCurrentRoundDartsScore();
+
+  }
+
+  checkWinner() {
+    if (this.whoseDartsGame?.players) {
+      const currentPlayer = this.whoseDartsGame?.players.find(player => player.index === this.currentPlayerIndexInRound);
+      if (currentPlayer && (currentPlayer.score - this.currentRoundDartsScore == 0)) {
+        alert('Winner Winner Dinner Chicken');
+      }
+    }
   }
 
   calcCurrentRoundDartsScore() {
@@ -109,21 +188,32 @@ export class GameComponent implements OnInit {
   }
 
   next() {
-    if (this.nbTotalDeTour && this.currentTour < this.nbTotalDeTour) {
-      // this.currentTour++;
+    if (this.nbTotalDeTour && this.currentRound < this.nbTotalDeTour) {
       this.rounds.push({
         firstDart: this.firstDart!,
         secondDart: this.secondDart!,
         thirdDart: this.thirdDart!
       });
-      this.firstDart = undefined;
-      this.secondDart = undefined;
-      this.thirdDart = undefined;
+
+      const currentPlayer = this.whoseDartsGame?.players.find(player => player.index === this.currentPlayerIndexInRound);
+
+      if (currentPlayer) {
+        if ((currentPlayer.score - this.currentRoundDartsScore) > 0) {
+          currentPlayer.score = currentPlayer.score - this.currentRoundDartsScore;
+        }
+      }
+
+      this.currentRoundDartsScore = 0;
+      this.resetDarts();
     }
 
-    if (this.allPlayersDidPlay()) {
+    this.nextPlayer();
+  }
 
-    }
+  resetDarts() {
+    this.firstDart = undefined;
+    this.secondDart = undefined;
+    this.thirdDart = undefined;
   }
 
   allPlayersDidPlay() {
@@ -139,10 +229,18 @@ export class GameComponent implements OnInit {
     } else if (this.thirdDart == undefined && this.secondDart == undefined && (this.firstDart && this.toDartsValue(this.firstDart) >= 0)) {
       this.firstDart = undefined;
     }
+    this.calcCurrentRoundDartsScore();
   }
 
   nextPlayer() {
-
+    if (this.whoseDartsGame && this.whoseDartsGame.players) {
+      if (this.currentPlayerIndexInRound < this.whoseDartsGame.players.length) {
+        this.currentPlayerIndexInRound++;
+      } else {
+        this.currentRound++;
+        this.currentPlayerIndexInRound = 1;
+      }
+    }
   }
 
   nextRound() {
@@ -169,6 +267,10 @@ export class GameComponent implements OnInit {
       this.isTriple = true;
       this.isDouble = false;
     }
+  }
+
+  exit() {
+    this.router.navigate(['/games']).then(r => r);
   }
 
 }

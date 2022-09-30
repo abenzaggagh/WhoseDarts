@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <ng-container *ngIf="players">
+        <p-card *ngFor="let player of rightPlayers()" class="m-2">
+          <ng-template pTemplate="header">
+            <p class="player-username player-{{ player.index }}">{{ player.username }}</p>
+          </ng-template>
+          <p class="player-score player-{{player.index }}">{{ player.score }}</p>
+        </p-card>
+      </ng-container>
+    </div>
+    <div class="col-6">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col" *ngFor="let player of rightPlayers()">
+            <h2 class="player-username player-{{ player.index }}">{{ player.index }}</h2>
+          </th>
+          <th scope="col" class="player-username">|</th>
+          <th scope="col" *ngFor="let player of leftPlayers()">
+            <h2 class="player-username player-{{ player.index }}">{{ player.index }}</h2>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr *ngFor="let cricketMark of CRICKET_MARKS">
+          <td *ngFor="let player of rightPlayers()">
+            <ng-container *ngIf="player.cricketMarks" [ngSwitch]="player.cricketMarks.get(cricketMark)">
+              <img src="assets/cricket/one.svg" *ngSwitchCase="1" class="img-size">
+              <img src="assets/cricket/two.svg" *ngSwitchCase="2" class="img-size">
+              <img src="assets/cricket/three.svg" *ngSwitchCase="3" class="img-size">
+            </ng-container>
+          </td>
+          <td>
+            <h3 class="player-username">
+              {{ cricketMark }}
+            </h3>
+          </td>
+          <td *ngFor="let player of leftPlayers()">
+            <ng-container *ngIf="player.cricketMarks" [ngSwitch]="player.cricketMarks.get(cricketMark)">
+              <img src="assets/cricket/one.svg" *ngSwitchCase="1" class="img-size">
+              <img src="assets/cricket/two.svg" *ngSwitchCase="2" class="img-size">
+              <img src="assets/cricket/three.svg" *ngSwitchCase="3" class="img-size">
+            </ng-container>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-3">
+      <ng-container *ngIf="players">
+        <p-card *ngFor="let player of leftPlayers()" class="m-2">
+          <ng-template pTemplate="header">
+            <p class="player-username player-{{player.index}}">{{ player.username }}</p>
+          </ng-template>
+          <p class="player-score player-{{player.index}}">{{ player.score }}</p>
+        </p-card>
+      </ng-container>
+    </div>
+  </div>
+</div>

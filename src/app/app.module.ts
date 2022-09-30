@@ -16,6 +16,8 @@ import {SelectButtonModule} from "primeng/selectbutton";
 import {FormsModule} from "@angular/forms";
 import { GameComponent } from './modules/game/game.component';
 import {InputTextModule} from "primeng/inputtext";
+import { ChronoComponent } from './components/chrono/chrono.component';
+import { CricketScoreboardComponent } from './components/cricket-scoreboard/cricket-scoreboard.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import {InputTextModule} from "primeng/inputtext";
     GamesComponent,
     ScoreComponent,
     StartComponent,
-    GameComponent
+    GameComponent,
+    ChronoComponent,
+    CricketScoreboardComponent
   ],
   imports: [
     BrowserModule,
