@@ -84,23 +84,26 @@ export const GAMES : Game[] = [
   {
     name: "301",
     code: Games.DARTS_301
-  },{
+  }, {
     name: "501",
     code: Games.DARTS_501
-  },{
+  }, {
     name: "701",
     code: Games.DARTS_701
-  },{
+  }, {
     name: "1001",
     code: Games.DARTS_1001
-  },{
+  }, {
     name: "Cricket",
     code: Games.CRICKET
-  },{
+  }, {
+    name: "Golf",
+    code: Games.HIGH_SCORE
+  }, {
     name: "Parchess",
     code: Games.PARCHESS
-  },{
+  }, {
     name: "High Score",
     code: Games.HIGH_SCORE
-  },
+  }
 ]

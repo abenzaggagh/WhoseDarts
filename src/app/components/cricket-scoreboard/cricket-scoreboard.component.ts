@@ -8,9 +8,7 @@ import {Player} from "../../models/whose-darts.model";
 })
 export class CricketScoreboardComponent implements OnInit {
 
-  //scores: Map<Player>
-
-  CRICKET_MARKS = ['20', '19', '18', '17', '16', '15', 'BULL'];
+  CRICKET_MARKS = ['20', '19', '18', '17', '16', '15', '25'];
 
   @Input()
   players: Player[] = [];

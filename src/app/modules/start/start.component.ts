@@ -27,18 +27,12 @@ export class StartComponent implements OnInit {
   NB_TOURS = NB_TOURS;
   nbTours: string = '15';
 
-  nbPlayers = 2;
+  nbPlayers = 1;
   players: Player[] = [{
     index: 1,
     firstName: '',
     lastName: '',
     username: 'Player 1',
-    score: 0
-  }, {
-    index: 2,
-    firstName: '',
-    lastName: '',
-    username: 'Player 2',
     score: 0
   }];
 

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
 import {GameService} from "../../services/GameService";
 import {Player, Round, WhoseDarts} from "../../models/whose-darts.model";
+import {Game, Players, X01, X01ModeEnum, X01Player} from "../../models/cricket.model";
 
 @Component({
   selector: 'app-game',
@@ -56,6 +57,8 @@ export class GameComponent implements OnInit {
 
   whoseDartsGame?: WhoseDarts;
 
+  game: Game | undefined;
+
   constructor(private router: Router,
               private gameService: GameService) { }
 
@@ -66,7 +69,11 @@ export class GameComponent implements OnInit {
     } else {
       switch (this.whoseDartsGame.game) {
         case "301":
-          this.whoseDartsGame.players.forEach(player => player.score = 301);
+          const players = new Players<X01Player>;
+          this.whoseDartsGame.players.forEach((player, index) => {
+            return players.addPlayer(new X01Player(index, player.firstName, player.lastName, player.username));
+          });
+          this.game = new X01(players, X01ModeEnum.DARTS_301);
           break;
         case "501":
           this.whoseDartsGame.players.forEach(player => player.score = 501);
@@ -117,7 +124,7 @@ export class GameComponent implements OnInit {
     return String(dartValue);
   }
 
-  toCricketMarks(dartValue: number) : number {
+  toCricketMarks() : number {
     if (this.isTriple) {
       return 3;
     } else if (this.isDouble) {
@@ -148,16 +155,21 @@ export class GameComponent implements OnInit {
       if (this.firstDart == undefined) {
         this.firstDart = this.toDarts(dartValue);
         if (this.whoseDartsGame.players[this.currentPlayerIndexInRound] && this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks) {
-          if (Number(this.firstDart) > 0) {
-            this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks?.set(String(dartValue), this.toCricketMarks(dartValue));
-          }
+            const currentMarksForDart = this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks?.get(String(dartValue))!
+            this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks?.set(String(dartValue), currentMarksForDart + this.toCricketMarks());
         }
       } else if (this.toDartsValue(this.firstDart) >= 0 && this.secondDart == undefined) {
         this.secondDart = this.toDarts(dartValue);
-        console.log(this.secondDart);
+        if (this.whoseDartsGame.players[this.currentPlayerIndexInRound] && this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks) {
+          const currentMarksForDart = this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks?.get(String(dartValue))!
+          this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks?.set(String(dartValue), currentMarksForDart + this.toCricketMarks());
+        }
       } else if (this.toDartsValue(this.firstDart) >= 0 && (this.secondDart != undefined && this.toDartsValue(this.secondDart) >= 0) && this.thirdDart == undefined) {
         this.thirdDart = this.toDarts(dartValue);
-        console.log(this.thirdDart);
+        if (this.whoseDartsGame.players[this.currentPlayerIndexInRound] && this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks) {
+          const currentMarksForDart = this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks?.get(String(dartValue))!
+          this.whoseDartsGame.players[this.currentPlayerIndexInRound].cricketMarks?.set(String(dartValue), currentMarksForDart + this.toCricketMarks());
+        }
       }
     }
 
@@ -204,6 +216,10 @@ export class GameComponent implements OnInit {
       }
 
       this.currentRoundDartsScore = 0;
+      this.resetDarts();
+    }
+
+    if (this.whoseDartsGame?.game == 'CRICKET') {
       this.resetDarts();
     }
 
