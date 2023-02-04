@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {GameService} from "../../services/GameService";
 import {Player, Round, WhoseDarts} from "../../models/whose-darts.model";
-import {Game, Players, X01, X01ModeEnum, X01Player} from "../../models/cricket.model";
+import {Cricket, CricketPlayer, Game, Players, X01, X01ModeEnum, X01Player} from "../../models/cricket.model";
 
 @Component({
   selector: 'app-game',
@@ -64,39 +64,37 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.whoseDartsGame = this.gameService.getGame();
-    if (this.whoseDartsGame.game == "") {
+    if (this.whoseDartsGame && this.whoseDartsGame.game && this.whoseDartsGame.game == "") {
       this.router.navigate(['/games']).then(r => r);
     } else {
-      switch (this.whoseDartsGame.game) {
-        case "301":
-          const players = new Players<X01Player>;
-          this.whoseDartsGame.players.forEach((player, index) => {
-            return players.addPlayer(new X01Player(index, player.firstName, player.lastName, player.username));
-          });
-          this.game = new X01(players, X01ModeEnum.DARTS_301);
-          break;
-        case "501":
-          this.whoseDartsGame.players.forEach(player => player.score = 501);
-          break;
-        case "701":
-          this.whoseDartsGame.players.forEach(player => player.score = 701);
-          break;
-        case "1001":
-          this.whoseDartsGame.players.forEach(player => player.score = 1001);
-          break;
-        case "CRICKET":
-          this.whoseDartsGame.players.forEach(player => player.score = 0);
-          break;
-        case "PARCHESS":
-          this.whoseDartsGame.players.forEach(player => player.score = 0);
-          break;
-      }
+      this.loadGame(this.whoseDartsGame);
       this.whoseDartsGame.players.forEach(player => {
         this.scores.set(player, []);
       });
     }
     this.nbTotalDeTour = parseInt(this.whoseDartsGame.nbTours);
     this.startChrono();
+  }
+
+  private loadGame(whoseDartsGame: WhoseDarts) {
+    if (whoseDartsGame && whoseDartsGame.game) {
+      if (whoseDartsGame.game === X01ModeEnum.DARTS_301_STRING
+        || whoseDartsGame.game === X01ModeEnum.DARTS_501_STRING
+        || whoseDartsGame.game === X01ModeEnum.DARTS_701_STRING
+        || whoseDartsGame.game === X01ModeEnum.DARTS_1001_STRING) {
+        const players = new Players<X01Player>;
+        whoseDartsGame.players.forEach((player, index) => {
+          player.score = Number(whoseDartsGame.game);
+          return players.addPlayer(new X01Player(index, player.firstName, player.lastName, player.username));
+        });
+        this.game = new X01(players, Number(whoseDartsGame.game));
+      } else if (whoseDartsGame.game === "CRICKET") {
+        const players = new Players<CricketPlayer>;
+
+      } else if (whoseDartsGame.game === "PARCHESS") {
+        const players = new Players<X01Player>;
+      }
+    }
   }
 
   isAllDartsSet() : boolean {

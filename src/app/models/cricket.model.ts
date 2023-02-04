@@ -179,11 +179,28 @@ export class X01Player extends Player {
 
 }
 
+export class CricketPlayer extends Player {
+
+  currentScore: any;
+
+  constructor(index: number,
+              firstName: string,
+              lastName: string,
+              username: string) {
+    super(index, firstName, lastName, username);
+  }
+
+}
+
 export enum X01ModeEnum {
   DARTS_301   = 301,
   DARTS_501   = 501,
   DARTS_701   = 701,
   DARTS_1001  = 1001,
+  DARTS_301_STRING   = "301",
+  DARTS_501_STRING   = "501",
+  DARTS_701_STRING   = "701",
+  DARTS_1001_STRING  = "1001",
 }
 
 export class X01 extends Game {
